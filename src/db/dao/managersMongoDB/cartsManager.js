@@ -55,21 +55,16 @@ class CartsManager {
       const cartFound = await this.findById(cid);
       const prodFound = await productsModel.findById(pid);
 
-      if (cartFound.products.some((item) => (item._id = prodFound._id))) {
-        const query = { _id: cartFound._id };
+      const verifyId = cartFound.products.findIndex((product) =>
+        product.product.equals(pid)
+      );
 
-        const idProduct = cartFound.products.find(
-          (product) => (product._id = pid)
-        );
-        idProduct.quantity--;
-        await cartsModel.updateOne(
-          query,
-          { $set: cartFound },
-          { $upsert: true }
-        );
-
-        return "Delete units";
+      if (verifyId === -1) {
+        cartFound.products.push({ product: prodFound._id, quantity: 1 });
+      } else {
+        cartFound.products[verifyId].quantity--;
       }
+      return cartFound.save();
     } catch (e) {
       console.log(e);
     }
