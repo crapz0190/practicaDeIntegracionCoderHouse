@@ -37,8 +37,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// agrega una unidad al carrito y su posterior incremento
-// realizar correcciones
 router.post("/:cid/product/:pid", async (req, res) => {
   const { cid } = req.params;
   const { pid } = req.params;

@@ -22,26 +22,25 @@ class CartsManager {
 
   async addCarts() {
     try {
-      const response = await cartsModel.insertMany();
+      const newCart = { products: [] };
+      const response = await cartsModel.create(newCart);
       return response;
     } catch (e) {
       console.log(e);
     }
   }
 
-  // realizar correciones
-  // se puede agregar el id del producto al carrito, pero al realizar su posterior incremento este no se realiza correctamente
   async addProductCart(cid, pid) {
     try {
       const cartFound = await this.findById(cid);
       const prodFound = await productsModel.findById(pid);
 
       const verifyId = cartFound.products.findIndex((product) =>
-        product._id.equals(pid)
+        product.product.equals(pid)
       );
 
       if (verifyId === -1) {
-        cartFound.products.push({ _id: prodFound._id, quantity: 1 });
+        cartFound.products.push({ product: prodFound._id, quantity: 1 });
       } else {
         cartFound.products[verifyId].quantity++;
       }
