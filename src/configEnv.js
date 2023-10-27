@@ -9,6 +9,7 @@ dotenv.config({
 const configEnv = {
   NODE_ENV: process.env.NODE_ENV || "development",
   PORT: process.env.PORT || 8080,
+  URI: process.env.URI,
 };
 
 console.log(`NODE_ENV = ${configEnv.NODE_ENV}`);
